@@ -12,12 +12,15 @@ var bird_heights = [200, 300]
 # game variables
 const DINO_START_POS = Vector2i(150, 485)
 const CAM_START_POS = Vector2i(576, 324)
+var difficulty: float
+const MAX_DIFFICULTY = 2
 var speed: float
 const START_SPEED = 10.0
-const MAX_SPEED = 25
+const MAX_SPEED = 20
 var screen_size: Vector2i
 var ground_height: int
-var score: int = 0
+var score: int
+var highscore: int = 5400
 const SCORE_MODIFIER = 10
 const SPEED_MODIFIER = 5000
 var game_running: bool
@@ -26,7 +29,9 @@ var last_obstacle
 # Called when the node enters the scene tree for the first time. 
 func _ready():
 	score = 0
+	difficulty = 0
 	show_score(score)
+	$HUD.get_node("HighScoreLabel").text = "HIGHSCORE: " + str(highscore / SCORE_MODIFIER)
 	screen_size = get_window().size
 	ground_height = $Ground.get_node('Image').texture.get_height()
 	new_game()
@@ -39,19 +44,35 @@ func new_game():
 	$Ground.position = Vector2i(0, 0)
 	$HUD.get_node("StartLabel").show()
 
-func show_score(score):
-	$HUD.get_node("ScoreLabel").text = "SCORE: " + str(score / SCORE_MODIFIER)
+func show_score(current_score):
+	var display_score = str(current_score / SCORE_MODIFIER)
+	$HUD.get_node("ScoreLabel").text = " SCORE: " + display_score
+	if current_score > highscore:
+		$HUD.get_node("HighScoreLabel").text = "HIGHSCORE: " + display_score + " "
+
+func adjust_difficulty():
+	difficulty += score / 10000
+	if difficulty > MAX_DIFFICULTY:
+		difficulty = MAX_DIFFICULTY
 
 func generate_obstacle():
 	if obstacles.is_empty() or last_obstacle.position.x < score + randi_range(300, 500):
 		var obs_type = obstacle_types[randi() % obstacle_types.size()]
-		var obs = obs_type.instantiate()
-		var obs_height = obs.get_node("Image").texture.get_height()
-		var obs_scale = obs.get_node("Image").scale
-		var obs_x = screen_size.x + score + 100
-		var obs_y = screen_size.y - ground_height - (obs_height * obs_scale.y / 2) + 5
-		last_obstacle = obs
-		add_obstacle(obs, obs_x, obs_y)
+		var obs
+		var max_obs = int(difficulty) + 1
+		for i in range(randi() % max_obs + 1):
+			obs = obs_type.instantiate()
+			var obs_height = obs.get_node("Image").texture.get_height()
+			var obs_scale = obs.get_node("Image").scale
+			var obs_x = screen_size.x + score + 100 * (i + 1)
+			var obs_y = screen_size.y - ground_height - (obs_height * obs_scale.y / 2) + 5
+			last_obstacle = obs
+			add_obstacle(obs, obs_x, obs_y)
+		if difficulty >= 1 and randi() % 2 == 0:
+			obs = bird_scene.instantiate()
+			var obs_x = screen_size.x + score + 100
+			var obs_y = bird_heights[randi() % bird_heights.size()]
+			add_obstacle(obs, obs_x, obs_y)
 
 func add_obstacle(obs, x, y):
 	obs.position = Vector2i(x, y)
@@ -71,6 +92,7 @@ func _process(delta):
 	generate_obstacle()
 	score += speed
 	show_score(score)
+	adjust_difficulty()
 	$Dino.position.x += speed
 	$Camera2D.position.x += speed
 	if $Camera2D.position.x - $Ground.position.x > screen_size.x * 1.5:

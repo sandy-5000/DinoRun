@@ -112,7 +112,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -162,6 +162,8 @@ scale = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_tpb5l")
 animation = &"idle"
 autoplay = "idle"
+frame = 2
+frame_progress = 0.31453
 
 [node name="RunCol" type="CollisionShape2D" parent="."]
 position = Vector2(-8, 0)

@@ -8,7 +8,7 @@
 offset_right = 198.0
 offset_bottom = 51.0
 theme_override_fonts/font = ExtResource("1_r4dao")
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 30
 text = "SCORE: "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -17,12 +17,13 @@ vertical_alignment = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -100.0
-offset_bottom = 23.0
+offset_left = -303.0
+offset_bottom = 51.0
 grow_horizontal = 0
 theme_override_fonts/font = ExtResource("1_r4dao")
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 30
 text = "HIGHSCORE: "
+vertical_alignment = 1
 
 [node name="StartLabel" type="Label" parent="."]
 anchors_preset = 8
@@ -37,5 +38,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_r4dao")
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 25
 text = "PRESS SPACE TO START"
+horizontal_alignment = 1
+vertical_alignment = 1
