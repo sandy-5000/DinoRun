@@ -7,7 +7,7 @@ size = Vector2(2304, 97)
 
 [node name="Ground" type="StaticBody2D"]
 
-[node name="GoundImage" type="Sprite2D" parent="."]
+[node name="Image" type="Sprite2D" parent="."]
 position = Vector2(1152, 600)
 texture = ExtResource("1_vsbnp")
 
