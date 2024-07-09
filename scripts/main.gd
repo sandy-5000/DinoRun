@@ -7,7 +7,7 @@ var barrel_scene = preload("res://scenes/barrel.tscn")
 var bird_scene = preload("res://scenes/bird.tscn")
 var obstacle_types = [stump_scene, rock_scene, barrel_scene]
 var obstacles: Array
-var bird_heights = [200, 300]
+var bird_heights = [200, 400]
 
 # game variables
 const DINO_START_POS = Vector2i(150, 485)
@@ -28,27 +28,40 @@ var last_obstacle
 
 # Called when the node enters the scene tree for the first time. 
 func _ready():
-	score = 0
-	difficulty = 0
-	show_score(score)
-	$HUD.get_node("HighScoreLabel").text = "HIGHSCORE: " + str(highscore / SCORE_MODIFIER)
 	screen_size = get_window().size
 	ground_height = $Ground.get_node('Image').texture.get_height()
+	$GameOver.get_node("Button").pressed.connect(new_game)
 	new_game()
 
 func new_game():
+	score = 0
+	difficulty = 0
+	for obs in obstacles:
+		obs.queue_free()
+	obstacles.clear()
+	show_score()
+	$HUD.get_node("HighScoreLabel").text = "HIGHSCORE: " + str(highscore / SCORE_MODIFIER) + " "
 	game_running = false
 	$Dino.position = DINO_START_POS
 	$Dino.velocity = Vector2i(0, 0)
 	$Camera2D.position = CAM_START_POS
 	$Ground.position = Vector2i(0, 0)
 	$HUD.get_node("StartLabel").show()
+	$GameOver.hide()
+	get_tree().paused = false
 
-func show_score(current_score):
-	var display_score = str(current_score / SCORE_MODIFIER)
+func game_over():
+	get_tree().paused = true
+	game_running = false
+	$GameOver.show()
+
+
+func show_score():
+	var display_score = str(score / SCORE_MODIFIER)
 	$HUD.get_node("ScoreLabel").text = " SCORE: " + display_score
-	if current_score > highscore:
+	if score > highscore:
 		$HUD.get_node("HighScoreLabel").text = "HIGHSCORE: " + display_score + " "
+		highscore = score
 
 func adjust_difficulty():
 	difficulty += score / 10000
@@ -56,7 +69,7 @@ func adjust_difficulty():
 		difficulty = MAX_DIFFICULTY
 
 func generate_obstacle():
-	if obstacles.is_empty() or last_obstacle.position.x < score + randi_range(300, 500):
+	if obstacles.is_empty() or last_obstacle.position.x < score + randi_range(100, 200):
 		var obs_type = obstacle_types[randi() % obstacle_types.size()]
 		var obs
 		var max_obs = int(difficulty) + 1
@@ -76,8 +89,17 @@ func generate_obstacle():
 
 func add_obstacle(obs, x, y):
 	obs.position = Vector2i(x, y)
+	obs.body_entered.connect(hit_obs)
 	add_child(obs)
 	obstacles.append(obs)
+
+func remove_obstacle(obs):
+	obs.queue_free()
+	obstacles.erase(obs)
+
+func hit_obs(body):
+	if body.name == "Dino":
+		game_over()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -91,9 +113,12 @@ func _process(delta):
 		speed = MAX_SPEED
 	generate_obstacle()
 	score += speed
-	show_score(score)
+	show_score()
 	adjust_difficulty()
 	$Dino.position.x += speed
 	$Camera2D.position.x += speed
 	if $Camera2D.position.x - $Ground.position.x > screen_size.x * 1.5:
 		$Ground.position.x += screen_size.x
+	for obs in obstacles:
+		if obs.position.x < $Camera2D.position.x - screen_size.x:
+			remove_obstacle(obs)
