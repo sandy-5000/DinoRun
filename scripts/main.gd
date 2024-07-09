@@ -20,7 +20,7 @@ const MAX_SPEED = 20
 var screen_size: Vector2i
 var ground_height: int
 var score: int
-var highscore: int = 5400
+var highscore: int = 100000
 const SCORE_MODIFIER = 10
 const SPEED_MODIFIER = 5000
 var game_running: bool
@@ -69,7 +69,7 @@ func adjust_difficulty():
 		difficulty = MAX_DIFFICULTY
 
 func generate_obstacle():
-	if obstacles.is_empty() or last_obstacle.position.x < score + randi_range(100, 200):
+	if obstacles.is_empty() or last_obstacle.position.x < score + randi_range(-300, 300):
 		var obs_type = obstacle_types[randi() % obstacle_types.size()]
 		var obs
 		var max_obs = int(difficulty) + 1

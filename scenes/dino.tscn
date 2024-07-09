@@ -147,10 +147,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8e70"]
-size = Vector2(80, 128)
+size = Vector2(64, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p4el3"]
-size = Vector2(80, 112)
+size = Vector2(64, 112)
 
 [node name="Dino" type="CharacterBody2D"]
 z_index = 1
@@ -166,11 +166,10 @@ frame = 2
 frame_progress = 0.31453
 
 [node name="RunCol" type="CollisionShape2D" parent="."]
-position = Vector2(-8, 0)
 shape = SubResource("RectangleShape2D_s8e70")
 
 [node name="DuckCol" type="CollisionShape2D" parent="."]
-position = Vector2(-8, 8)
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_p4el3")
 
 [node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
