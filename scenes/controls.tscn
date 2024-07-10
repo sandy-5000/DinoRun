@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://cdwcm386bi31o"]
+
+[ext_resource type="Script" path="res://scripts/controls/jump.gd" id="1_7ll7s"]
+[ext_resource type="Script" path="res://scripts/controls/duck.gd" id="2_87jky"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vihg4"]
+bg_color = Color(0.0392157, 0.2, 0.196078, 0.717647)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lngl0"]
+bg_color = Color(0.239559, 0.696103, 0.487755, 0.992157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_15bkn"]
+bg_color = Color(0.0392157, 0.2, 0.196078, 0.717647)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lp13b"]
+bg_color = Color(0.330864, 0.686345, 0.46017, 1)
+
+[node name="Controls" type="CanvasLayer"]
+
+[node name="Jump" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -64.0
+offset_right = 136.0
+offset_bottom = -16.0
+grow_vertical = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_vihg4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lngl0")
+text = "JUMP"
+script = ExtResource("1_7ll7s")
+
+[node name="Duck" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -136.0
+offset_top = -64.0
+offset_right = -40.0
+offset_bottom = -22.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_15bkn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lp13b")
+text = "DUCK"
+script = ExtResource("2_87jky")
