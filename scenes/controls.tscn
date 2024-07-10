@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdwcm386bi31o"]
+[gd_scene load_steps=8 format=3 uid="uid://cdwcm386bi31o"]
 
 [ext_resource type="Script" path="res://scripts/controls/jump.gd" id="1_7ll7s"]
+[ext_resource type="FontFile" uid="uid://s15272omc2m3" path="res://assets/fonts/retro.ttf" id="1_ug1rf"]
 [ext_resource type="Script" path="res://scripts/controls/duck.gd" id="2_87jky"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vihg4"]
@@ -27,10 +28,11 @@ offset_right = 136.0
 offset_bottom = -16.0
 grow_vertical = 0
 focus_mode = 0
+theme_override_fonts/font = ExtResource("1_ug1rf")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_vihg4")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lngl0")
-text = "JUMP"
+text = " JUMP "
 script = ExtResource("1_7ll7s")
 
 [node name="Duck" type="Button" parent="."]
@@ -46,8 +48,9 @@ offset_bottom = -22.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
+theme_override_fonts/font = ExtResource("1_ug1rf")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_15bkn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lp13b")
-text = "DUCK"
+text = " DUCK "
 script = ExtResource("2_87jky")

@@ -31,6 +31,7 @@ func _ready():
 	screen_size = get_window().size
 	ground_height = $Ground.get_node('Image').texture.get_height()
 	$GameOver.get_node("Button").pressed.connect(new_game)
+	$Controls.get_node("Jump").pressed.connect(start_game)
 	new_game()
 
 func new_game():
@@ -101,12 +102,15 @@ func hit_obs(body):
 	if body.name == "Dino":
 		game_over()
 
+func start_game():
+	game_running = true
+	$HUD.get_node("StartLabel").hide()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if not game_running:
-		if Input.is_action_pressed("ui_accept"):
-			game_running = true
-			$HUD.get_node("StartLabel").hide()
+		if Input.is_key_pressed(KEY_SPACE):
+			start_game()
 		return
 	speed = START_SPEED + score / SPEED_MODIFIER
 	if speed > MAX_SPEED:
