@@ -12,7 +12,7 @@ var bird_heights = [200, 400]
 # game variables
 const DINO_START_POS = Vector2i(150, 485)
 const CAM_START_POS = Vector2i(576, 324)
-var difficulty: float
+var difficulty: float	
 const MAX_DIFFICULTY = 2
 var speed: float
 const START_SPEED = 10.0
